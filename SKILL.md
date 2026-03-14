@@ -1,122 +1,127 @@
 ---
 name: session-notation-song-prompting
-description: Erzeugt kontrollierbare Music-Gen-Prompts mit „Session-Notation“ (Regie-Tags in eckigen Klammern), inkl. Bar-/Takt-Mikrosteuerung, Arrangement-Layering, Vocal-Regie, FX/Automation, Motifs und wiederverwendbaren Templates.
+description: >
+  Generate structured, copy-paste-ready prompts for AI music generators (Suno, Udio, etc.)
+  using Session Notation — a prompting methodology that separates production direction [in brackets]
+  from lyrics as plain text, with bar/beat-level timing control.
+  Use this skill whenever someone asks to write a song prompt, music prompt, Suno prompt,
+  lyrics with production notes, arrangement instructions, or mentions bars, beats, hooks,
+  verses, mixing, or any music generation workflow. Also trigger when the user wants more
+  control over drops, transitions, vocal delivery, instrument layering, or song structure
+  in an AI music context — even if they don't say "Session Notation" by name.
 license: CC0-1.0
 ---
 
-# Session-Notation Song Prompting
+# Session Notation — Song Prompting
 
-Dieser Skill hilft dabei, **Lyrics + Produktion/Arrangement + Performance-Regie** in einem Prompt zu kombinieren, indem du **Regie-Anweisungen** in `[...]` (Tags) und **Lyrics** als normalen Text trennst. Kern ist die **Mikrosteuerung über Bars/Takte** (z. B. „Bars 1–4“, „bar 8 hit“), um Einstiege, Pocket, Drops, Fills und FX gezielt zu dirigieren.
+Session Notation combines **lyrics + production/arrangement + performance direction** into a single prompt by separating **direction tags** `[...]` from **lyrics** (plain text). The core idea: use **bar/beat-level timing** (e.g. "Bars 1–4", "bar 8 hit") to precisely control entrances, pockets, drops, fills, and FX.
 
-Referenz-Library (Bausteine/Beispiele): `references/LIBRARY.md` (inkl. **Grundeffekte & Mixing-Basics** für Einsteiger)
+For copy-paste building blocks and mixing basics, see `references/LIBRARY.md`.
+For full worked examples, see `references/EXAMPLES.md`.
 
-## Schnellstart (für den Agent)
+## Quick Start
 
-- Erzeuge zuerst einen **copy/paste‑Prompt** (Header → Timeline → Motifs). Erklärungen nur kurz darunter, falls gewünscht.
-- Halte pro Abschnitt die **Prioritäten** klein (Pocket + Layer + Transition + ggf. Hit Point).
-- Nutze Bars/Beats/Words als **Timing-Anker**, damit Beat und Lyrics „einrasten“.
+1. Produce a **copy-paste prompt** (Header → Timeline → Motifs). Keep explanations brief.
+2. Keep **priorities small** per section: pocket + layer + transition + maybe one hit point.
+3. Use bars/beats/words as **timing anchors** so beat and lyrics lock together.
 
-## Wann verwenden
+## When to Use
 
-- Wenn der User mehr **Kontrolle** will über:
-  - **Mix/Klangbild/Welt** (Raum, Texture, Width, Noise)
-  - **Einsatz/Art/Effekt** von Drums/Bass/Instrumenten/Vocals
-  - **Arrangement-Kohärenz** durch Layering + wiederholbare Motifs
-  - **Hook- und Lyrics-Kontrolle** (Mantra-Hook, Call/Response, Harmony-Stacks)
-- Wenn der User Prompts à la „Suno prompt“, „music gen prompt“, „lyrics + production notes“, „arrangement instructions“, „bars 1–4“ erwähnt.
+- User wants **control** over: mix/texture/width, instrument entries/FX, arrangement coherence via layering + motifs, hook/lyrics delivery
+- User mentions: "Suno prompt", "music gen prompt", "lyrics + production notes", "arrangement instructions", "bars 1–4", song sections, drops, risers, vocal stacking
 
-## Grundregeln (wichtig)
+## Core Rules
 
-- **Trennung**:
-  - **Regie** gehört in `[...]`
-  - **Lyrics/gesprochener Text** steht **ohne** `[...]` als normale Zeilen
-- **Vocal-Regie in Tags, nicht Lyrics in Tags**:
-  - Gut: `[Vocal: lead, spoken, close mic, intimate]` gefolgt von Lyrics-Zeile
-  - Schlecht: `[Lead (spoken...)] ("Lyric...")` (Lyrics in Klammern versteckt)
-- **Bars/Takte sind Kern**: Verwende pro Abschnitt 1–2 Bar-Phasen (z. B. `Bars 1–4`, `Bars 5–8`) und setze gezielte Hits (`bar 8 tape-stop`).
-- **Hit Points / „auf den Schlag“**: Für exakte Synchronität (Instrument startet *genau* auf einem Schlag / FX trifft *genau* auf ein Wort) nutze:
-  - **Beat-Anker**: „downbeat 1“, „& of 3“, „beat 4“, „bar 8“
-  - **Word-Anker**: „on word: ...“ (das Wort steht in den Lyrics, nicht in `[...]`)
-- **Konvention (Timing)**:
-  - Standard ist **4/4**, wenn nicht anders angegeben.
-  - **Bars** sind standardmäßig **abschnitts‑lokal** (Verse‑Bars, Hook‑Bars). Wenn du globale Zählung willst, schreibe explizit „Song bars …“.
-- **Prioritäten statt Überladung**: Pro Abschnitt ideal:
-  - 1 „Pocket/Drum“-Regel
-  - 1 „Layer“-Änderung
-  - 1 „Transition/FX“-Akzent
+### Separation
+- **Direction** goes in `[...]`
+- **Lyrics/spoken text** goes as plain lines — never inside brackets
 
-## Inputs, die du beim User abfragen solltest (kurz)
+### Vocal Direction vs Lyrics
+- Good: `[Vocal: lead, spoken, close mic, intimate]` followed by a lyrics line
+- Bad: `[Lead (spoken...)] ("Lyric text here...")` — lyrics hidden in brackets
 
-Falls nicht gegeben, stelle wenige, gezielte Rückfragen:
+### Bars Are the Backbone
+- Use 1–2 bar phases per section (e.g. `Bars 1–4`, `Bars 5–8`)
+- Place targeted hits: `bar 8 tape-stop`
+- Default is **4/4**; bars count **per section** unless marked "Song bars …"
 
-- **Style-Direction**: 1–2 Zeilen „wohin soll der Song?“ (Subgenre, Vibe, Referenzen, Instrument-Farben)
-- **Lyrics**: entweder komplette Lyrics oder zumindest Hook + Themen/Stichwörter
-- **Zielmodell/Plattform** (Suno / anderes) und gewünschte **Prompt-Länge** (minimal/mid/full)
-- **Genre/Referenz-Vibe**, **Tempo (BPM)**, optional **Key**, **Meter (z. B. 4/4)** und **Swing/Groove**
-- **Songstruktur** (Intro / Verse / Pre / Hook / Bridge / Outro) + Anzahl Wiederholungen
-- **Vocal**: Sprache, Persona/Stimme (z. B. „calm baritone“), Nähe (close mic), Delivery (spoken/sung/rap), Harmony-Plan
-- **Klangwelt**: Raum/Texture (tape/vinyl/room tone), Breite (mono→wide), Energie-Kurve (restrained → lift → breakdown → final lift)
-- **Motifs**: 1–3 wiederkehrende Signaturen (reverse vox tail, 808 glide, drum fill pattern)
-- **Content-Grenzen**: clean/explicit, Themen, No-Gos
+### Hit Points (Exact Sync)
+For precise synchronization (instrument starts *exactly* on a beat / FX hits *exactly* on a word):
+- **Beat anchors**: "downbeat 1", "& of 3", "beat 4", "bar 8"
+- **Word anchors**: "on word: ..." (the word appears in lyrics, not in `[...]`)
 
-## Output-Format (immer gleich)
+### Priorities Over Overload
+Per section, aim for:
+- 1 pocket/drum rule
+- 1 layer change
+- 1 transition/FX accent
+- (optional) 1 hit point
 
-Gib dem User einen **copy/paste-fertigen Prompt** in dieser Form:
+## User Inputs to Gather
 
-1) **Header** (Song-DNA) als `[...]` Tags  
-2) **Timeline**: pro Abschnitt 2–6 Tag-Zeilen + dann Lyrics  
-3) **Motifs** Block (optional, aber empfohlen)
+If not provided, ask briefly:
+- **Style direction**: 1–2 lines — subgenre, vibe, references, instrument colors
+- **Lyrics**: complete lyrics or at least hook + themes/keywords
+- **Target platform** (Suno / Udio / other) and desired **prompt density** (minimal / mid / full)
+- **Genre, tempo (BPM)**, optional key, meter, swing/groove
+- **Song structure**: Intro / Verse / Pre / Hook / Bridge / Outro + repeat counts
+- **Vocal**: language, persona/voice, proximity, delivery (spoken/sung/rap), harmony plan
+- **Sound world**: room/texture, width, energy curve
+- **Motifs**: 1–3 recurring signatures (reverse vox tail, 808 glide, fill pattern)
+- **Content boundaries**: clean/explicit, themes, no-gos
 
-Nutze **ein Tag pro Zeile** für Stabilität. Verwende `|` für parallele Infos.
+## Output Format (Always the Same)
 
-## Hinweise zur Genauigkeit (realistisch bleiben)
+Produce a **copy-paste-ready prompt**:
 
-- Zahlen wie `−12 dB`, `120% width`, `retune 15 ms` sind **Intention/Feeling**, nicht garantiert „engine‑genau“.
-- Wenn der User unsicher ist: lieber **sprachlich/relativ** prompten („sehr leise“, „breiter“, „subtiler Pump“) statt Messwerte.
+1. **Header** (Song DNA) as `[...]` tags
+2. **Timeline**: per section 2–6 tag lines + lyrics
+3. **Motifs** block (optional but recommended)
 
-## Prompt-Längenbudget (damit es nicht „überpromptet“)
+One tag per line for stability. Use `|` for parallel info.
 
-- **Minimal**: Header 6–10 Tags, pro Abschnitt 1–3 Tags, kaum Zahlen, 0–1 Hit Point.
-- **Mid**: Header 10–16 Tags, pro Abschnitt 3–6 Tags, gezielte Bar-Phasen + 1–2 Hit Points.
-- **Full**: Header 16–25 Tags, pro Abschnitt 5–10 Tags, wiederholbare Mikroregeln + Motifs-Block.
+## Accuracy Note
 
-## Intensity-Vokabular (einheitliche Sprache)
+Numbers like `−12 dB`, `120% width`, `retune 15 ms` express **intention/feeling**, not guaranteed engine precision. When unsure, prompt relatively: "very quiet", "wider", "subtle pump".
 
-Wenn du keine Messwerte verwenden willst, nutze diese Skala:
+## Prompt Length Budget
 
-- **subtle**: kaum hörbar, „nur Gefühl“
-- **medium**: klar hörbar, aber nicht dominant
-- **hard**: offensichtlicher Effekt/Move
+| Level | Header Tags | Tags/Section | Details |
+|-------|-------------|-------------|---------|
+| **Minimal** | 6–10 | 1–3 | Few numbers, 0–1 hit points |
+| **Mid** | 10–16 | 3–6 | Bar phases + 1–2 hit points |
+| **Full** | 16–25 | 5–10 | Micro-rules + motifs block |
 
-## Workflow (Schritt-für-Schritt)
+## Intensity Vocabulary
 
-1) **Kern-DNA** in 8–15 Header-Tags definieren (Genre, BPM, Drums, Bass, Instruments, Vocal, Space/Texture, Feel).
-2) **Abschnitte** erstellen (Intro/Verse/Pre/Hook/Bridge/Outro).
-3) Pro Abschnitt:
-   - Pocket/Drums-Regel + Bar-Phasen (z. B. `Bars 1–4`, `Bars 5–8`)
-   - Layer-Change (z. B. Rhodes rein, Hats raus)
-   - Transition/FX (z. B. riser, tape-stop, reverse tail)
-   - Vocal-Regie (z. B. close mic, mantra hook, harmony stack)
-   - Hit Points (optional, aber stark): „auf den Schlag“-Ereignisse über Beat-/Word-Anker
-4) **Motifs** definieren (was pro Hook wiederkehrt).
-5) **Lyrics** schreiben/formatieren:
-   - klare Hook-Formulierung (Mantra/Anker-Sätze)
-   - Wiederholungen bewusst setzen
-   - keine Lyrics in `[...]`
-6) **Sanity-Check**:
-   - keine widersprüchlichen Mix-Anweisungen (dry lead vs huge hall)
-   - Bar-Referenzen sind pro Abschnitt verständlich
-   - pro Abschnitt nicht mehr als 3–5 Prioritäten
+Instead of measurements, use this scale:
+- **subtle**: barely audible, "just a feeling"
+- **medium**: clearly audible but not dominant
+- **hard**: obvious effect/move
 
-## Häufige Fehler (kurz)
+## Workflow
 
-- **Lyrics in `[...]`** → werden als Regie interpretiert. Lyrics immer normal schreiben.
-- **Unklare Bar-Zählung** → „Bars 7–8“ immer als „(of this section)“ kennzeichnen, wenn missverständlich.
-- **Zu viele gleichzeitige Ziele** → lieber 1–2 dominante Moves pro Abschnitt.
+1. Define **core DNA** in 8–15 header tags (genre, BPM, drums, bass, instruments, vocal, space/texture, feel)
+2. Create **sections** (Intro / Verse / Pre / Hook / Bridge / Outro)
+3. Per section:
+   - Pocket/drums rule + bar phases
+   - Layer change (e.g. Rhodes in, hats out)
+   - Transition/FX (e.g. riser, tape-stop, reverse tail)
+   - Vocal direction (e.g. close mic, mantra hook, harmony stack)
+   - Hit points (optional): "on-the-beat" events via beat/word anchors
+4. Define **motifs** (what recurs each hook)
+5. Write/format **lyrics**: clear hook phrasing, intentional repetition, never in `[...]`
+6. **Sanity check**: no contradictory mix instructions, bar refs make sense per section, max 3–5 priorities per section
 
-## Templates (auswählen je nach gewünschter Dichte)
+## Common Mistakes
 
-### Minimal (schnell, aber kontrolliert)
+- **Lyrics in `[...]`** → interpreted as direction. Always write lyrics as plain text.
+- **Unclear bar counting** → mark "Bars 7–8 (of this section)" when ambiguous.
+- **Too many simultaneous goals** → stick to 1–2 dominant moves per section.
+
+## Templates
+
+### Minimal (fast but controlled)
 
 ```text
 [Title: "..."]
@@ -152,16 +157,14 @@ Wenn du keine Messwerte verwenden willst, nutze diese Skala:
 ```
 
 ### Mid-Detail (Sweet Spot)
+- 2–4 tag lines + 1 vocal line + 1 FX/transition line per section
+- Bar phases: typically `Bars 1–4` / `Bars 5–8`
 
-- Pro Abschnitt 2–4 Tag-Zeilen + 1 Vocal-Zeile + 1 FX/Transition-Zeile.
-- Bar-Phasen: i. d. R. `Bars 1–4` / `Bars 5–8`.
+### Full-Detail (Maximum Direction)
+- Precise header (BPM, swing, kit character, atmosphere level)
+- Hooks with repeatable micro-rules (kick busy bars, ghost notes, bar-8 hit)
+- Dedicated motifs block at the end
 
-### Full-Detail (maximale Regie)
+## Building Blocks
 
-- Präziser Header (BPM, Swing, Kit-Charakter, Atmos-Level).
-- Hooks mit wiederholbaren Mikroregeln (Kick busy bars, ghost notes, bar-8-hit).
-- Eigener Motifs-Block am Ende.
-
-## Bausteine (kurz)
-
-Für konkrete Copy/Paste-Bausteine nutze `references/LIBRARY.md` (Drums/Bass/Instrumente/Vocals/Mix/FX/Automation/Negative Space).
+For concrete copy-paste blocks, see `references/LIBRARY.md` — covers drums, bass, instruments, vocals, mix, FX, automation, negative space, hit points, mixing basics, and ready-made recipe blocks.
